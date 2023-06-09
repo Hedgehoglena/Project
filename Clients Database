@@ -1,0 +1,48 @@
+# Clients` database
+
+clients = {}
+
+def add_client():
+    name = input("Enter client name: ")
+    dob = input("Enter client date of birth: ")
+    address = input("Enter client address: ")
+    email = input("Enter client email: ")
+
+    client_info = {
+        "Date of Birth": dob,
+        "Address": address,
+        "Email": email
+    }
+
+    clients[name] = client_info
+    print("Client added successfully!")
+
+def display_client_info():
+    name = input("Enter client name: ")
+    client_info = clients.get(name)
+
+    if client_info:
+        print("Client Information:")
+        print("Name:", name)
+        for key, value in client_info.items():
+            print(key + ":", value)
+    else:
+        print("Client not found!")
+
+while True:
+    print("\n--- Client Database Menu ---")
+    print("1. Add a new client")
+    print("2. Display client information")
+    print("3. Exit")
+
+    choice = input("Enter your choice (1-3): ")
+
+    if choice == '1':
+        add_client()
+    elif choice == '2':
+        display_client_info()
+    elif choice == '3':
+        print("Exiting program...")
+        break
+    else:
+        print("Invalid choice! Please enter a valid option.")
