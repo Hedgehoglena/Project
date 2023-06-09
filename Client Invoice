@@ -1,0 +1,51 @@
+import datetime
+
+class Invoice:
+    def __init__(self, client_name, client_dob, client_address, therapist_name, therapist_reg_num, session_date, session_duration, hourly_rate):
+        self.client_name = client_name
+        self.client_dob = client_dob
+        self.client_address = client_address
+        self.therapist_name = therapist_name
+        self.therapist_reg_num = therapist_reg_num
+        self.session_date = session_date
+        self.session_duration = session_duration
+        self.hourly_rate = hourly_rate
+
+    def calculate_total_amount(self):
+        return self.session_duration * self.hourly_rate
+
+    def generate_invoice(self):
+        invoice_date = datetime.date.today()
+        total_amount = self.calculate_total_amount()
+
+        invoice = f"--------------------------------------\n"
+        invoice += f"Invoice Date: {invoice_date}\n"
+        invoice += f"--------------------------------------\n"
+        invoice += f"Client Name: {self.client_name}\n"
+        invoice += f"Client DOB (DD-MM-YYYY): {self.client_dob}\n"
+        invoice += f"Client Address (Street Number, City, Province, Postal Code): {self.client_address}\n"
+        invoice += f"Therapist Name: {self.therapist_name}\n"
+        invoice += f"Therapist Registration NUmber: {self.therapist_reg_num}\n"
+        invoice += f"Session Date: {self.session_date}\n"
+        invoice += f"Session Duration: {self.session_duration} hours\n"
+        invoice += f"Hourly Rate: ${self.hourly_rate}\n"
+        invoice += f"--------------------------------------\n"
+        invoice += f"Total Amount: ${total_amount}\n"
+        invoice += f"--------------------------------------\n"
+
+        return invoice
+
+
+# Usage:
+client_name = "Roman T"
+client_dob = "05-11-1991"
+client_address = "23 Botham Road, Toronto, ON, M2N2J7"
+therapist_name = "Elena Nagovitsyna"
+therapist_reg_num = "007358 CRPO"
+session_date = "2023-06-07"
+session_duration = 1.5
+hourly_rate = 100
+
+invoice = Invoice(client_name, client_dob, client_address, therapist_name, therapist_reg_num, session_date, session_duration, hourly_rate)
+generated_invoice = invoice.generate_invoice()
+print(generated_invoice)
