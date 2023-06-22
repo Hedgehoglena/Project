@@ -1,0 +1,73 @@
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
+import datetime
+
+class Invoice:
+    def __init__(self, client_name, client_dob, client_address, therapist_name, therapist_reg_num, session_date, session_duration, hourly_rate):
+        self.client_name = client_name
+        self.client_dob = client_dob
+        self.client_address = client_address
+        self.therapist_name = therapist_name
+        self.therapist_reg_num = therapist_reg_num
+        self.session_date = session_date
+        self.session_duration = session_duration
+        self.hourly_rate = hourly_rate
+
+    def calculate_total_amount(self):
+        return self.session_duration * self.hourly_rate
+
+    def generate_invoice(self):
+        invoice_date = datetime.date.today()
+        total_amount = self.calculate_total_amount()
+
+        # Create a PDF document
+        doc = SimpleDocTemplate("invoice.pdf", pagesize=letter)
+
+        # Define the table data
+        data = [
+            ['Client Name:', self.client_name],
+            ['Client DOB (DD-MM-YYYY):', self.client_dob],
+            ['Client Address:', self.client_address],
+            ['Therapist Name:', self.therapist_name],
+            ['Therapist Registration Number:', self.therapist_reg_num],
+            ['Session Date:', self.session_date],
+            ['Session Duration (hours):', str(self.session_duration)],
+            ['Hourly Rate:', '${:.2f}'.format(self.hourly_rate)],
+            ['Total Amount:', '${:.2f}'.format(total_amount)]
+        ]
+
+        # Define the table style
+        style = TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, 0), 12),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ])
+
+        # Create the table and apply the style
+        table = Table(data)
+        table.setStyle(style)
+
+        # Build the PDF document
+        elements = [table]
+        doc.build(elements)
+
+       # Create an instance of the Invoice class
+
+client_name = "Anna Ivanova"
+client_dob = "05-11-1991"
+client_address = "23 Regatta Cr, Toronto, ON, M2R2X2"
+therapist_name = "Elena Nagovitsyna"
+therapist_reg_num = "007358 CRPO"
+session_date = "2023-06-07"
+session_duration = 1.5
+hourly_rate = 100
+
+invoice = Invoice(client_name, client_dob, client_address, therapist_name, therapist_reg_num, session_date, session_duration, hourly_rate)
+        # Generate the invoice and save it as a PDF document
+invoice.generate_invoice()
