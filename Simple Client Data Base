@@ -1,0 +1,33 @@
+import csv
+
+def create_client_database():
+    client_list = []
+
+    while True:
+        name = input("Enter client's name (or 'q' to quit): ")
+        if name == 'q':
+            break
+
+        dob = input("Enter client's date of birth (DD-MM-YYYY): ")
+        address = input("Enter client's address: ")
+        email = input("Enter client's email address: ")
+
+        client = {'Name': name, 'Date of Birth': dob, 'Address': address, 'Email': email}
+        client_list.append(client)
+
+    return client_list
+
+def save_to_csv(client_list):
+    fieldnames = ['Name', 'Date of Birth', 'Address', 'Email']
+    filename = 'client_database.csv'
+
+    with open(filename, 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(client_list)
+
+    print(f"Client database saved to '{filename}'.")
+
+# Main program
+clients = create_client_database()
+save_to_csv(clients)
